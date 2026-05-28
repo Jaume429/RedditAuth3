@@ -1,65 +1,47 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function TopographicBlobAnimation() {
-  const [isMounted, setIsMounted] = useState(false);
-
   useEffect(() => {
-    setIsMounted(true);
-
     const canvas = document.getElementById('topographicCanvas') as HTMLCanvasElement;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const dpr = window.devicePixelRatio || 1;
-    const size = 600;
-    canvas.width = size * dpr;
-    canvas.height = size * dpr;
-    ctx.scale(dpr, dpr);
-
-    const CONFIG = {
-      totalLines: 10,
-      spacing: 18,
-      baseRadius: 60,
-      strokeColor: 'rgba(43, 31, 23, 0.15)',
-      lineWidth: 1.5,
-      speed: 0.005,
-    };
+    canvas.width = 600;
+    canvas.height = 600;
 
     let time = 0;
-    let animationId: number;
 
-    function drawTopographicBlob() {
-      ctx.clearRect(0, 0, size, size);
+    const animate = () => {
+      ctx.clearRect(0, 0, 600, 600);
+      ctx.fillStyle = 'rgba(43, 31, 23, 0.08)';
+      ctx.fillRect(0, 0, 600, 600);
 
-      const centerX = size / 2;
-      const centerY = size / 2;
+      const centerX = 300;
+      const centerY = 300;
 
-      ctx.strokeStyle = CONFIG.strokeColor;
-      ctx.lineWidth = CONFIG.lineWidth;
-
-      for (let i = 0; i < CONFIG.totalLines; i++) {
+      for (let layer = 0; layer < 10; layer++) {
+        ctx.strokeStyle = `rgba(120, 80, 50, ${0.3 - layer * 0.02})`;
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
 
-        const currentRadius = CONFIG.baseRadius + i * CONFIG.spacing;
-        const totalPoints = 120;
+        const baseRadius = 40 + layer * 20;
 
-        for (let j = 0; j <= totalPoints; j++) {
-          const angle = (j / totalPoints) * Math.PI * 2;
+        for (let i = 0; i <= 120; i++) {
+          const angle = (i / 120) * Math.PI * 2;
+          
+          // Deformación simple pero efectiva
+          const wave = Math.sin(angle * 3 + time * 0.1 + layer) * 15;
+          const wave2 = Math.cos(angle * 2 - time * 0.08 + layer * 0.5) * 10;
+          
+          const radius = baseRadius + wave + wave2;
+          const x = centerX + Math.cos(angle) * radius;
+          const y = centerY + Math.sin(angle) * radius;
 
-          const noiseX = Math.cos(angle * 2 + time) * 0.4;
-          const noiseY = Math.sin(angle * 3 - time * 1.5) * 0.3;
-          const waveFactor = 1 + (noiseX + noiseY) * (0.15 + i * 0.015);
-
-          const r = currentRadius * waveFactor;
-
-          const x = centerX + Math.cos(angle) * r;
-          const y = centerY + Math.sin(angle) * r;
-
-          if (j === 0) {
+          if (i === 0) {
             ctx.moveTo(x, y);
           } else {
             ctx.lineTo(x, y);
@@ -70,38 +52,24 @@ export default function TopographicBlobAnimation() {
         ctx.stroke();
       }
 
-      time += CONFIG.speed;
-      animationId = requestAnimationFrame(drawTopographicBlob);
-    }
-
-    drawTopographicBlob();
-
-    return () => {
-      cancelAnimationFrame(animationId);
+      time += 1;
+      requestAnimationFrame(animate);
     };
+
+    animate();
   }, []);
 
-  if (!isMounted) return null;
-
   return (
-    <div
-      style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '600px',
-        height: '600px',
-        zIndex: -1,
-        pointerEvents: 'none',
-      }}
-    >
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <canvas
         id="topographicCanvas"
         style={{
-          width: '100%',
-          height: '100%',
-          display: 'block',
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 1,
+          opacity: 0.6,
         }}
       />
     </div>
