@@ -3,6 +3,7 @@ import AdSlot from '@/components/AdSlot';
 import CTAButton from '@/components/CTAButton';
 import OrganizationJsonLd from '@/components/OrganizationJsonLd';
 import PostCard from '@/components/PostCard';
+import TopographicBlobAnimation from '@/components/TopographicBlobAnimation';
 import { getAllPosts } from '@/lib/posts';
 import { absoluteUrl, siteConfig } from '@/lib/site';
 
@@ -46,6 +47,7 @@ export default function HomePage() {
     <>
       <OrganizationJsonLd />
       <section className="border-b border-line bg-gradient-to-br from-paper via-paper to-[#fafaf8] relative overflow-hidden">
+        <TopographicBlobAnimation />
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 lg:grid-cols-[1.5fr_0.5fr] lg:px-6 lg:py-24 relative z-10 lg:items-start">
           <div>
             <p className="animate-slideInLeft text-xs font-bold uppercase tracking-widest text-clay">Claude Code, Translated</p>

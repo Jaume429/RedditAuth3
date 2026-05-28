@@ -1,0 +1,14 @@
+.background-animation-container {
+  position: absolute;
+  top: 10%;
+  left: -5%;
+  width: 600px;
+  height: 600px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+#topographicCanvas {
+  width: 100%;
+  height: 100%;
+}
