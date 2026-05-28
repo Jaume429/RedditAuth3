@@ -88,15 +88,16 @@ export default function TopographicBlobAnimation() {
       ref={containerRef}
       style={{
         position: 'absolute',
-        top: '10%',
-        left: '-5%',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
         width: '600px',
         height: '600px',
         zIndex: -1,
         pointerEvents: 'none'
       }}
     >
-      <canvas id="topographicCanvas" style={{ width: '100%', height: '100%' }} />
+      <canvas id="topographicCanvas" style={{ width: '100%', height: '100%', display: 'block' }} />
     </div>
   );
 }
