@@ -43,6 +43,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
+          # Stash package-lock.json changes (keep only content/ changes)
+          git checkout -- package-lock.json
+          
           # Check if there are changes to commit
           if [[ -n $(git status -s) ]]; then
             git add content/
