@@ -10,47 +10,59 @@ export default function TopographicBlobAnimation() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    canvas.width = 600;
-    canvas.height = 600;
+    const rect = canvas.parentElement?.getBoundingClientRect();
+    if (!rect) return;
+
+    canvas.width = rect.width;
+    canvas.height = rect.height;
 
     let time = 0;
 
+    // Definir posiciones y colores de los blobs
+    const blobs = [
+      { x: 150, y: 200, color: 'rgba(200, 140, 100, 0.12)', size: 80 },
+      { x: canvas.width - 200, y: 250, color: 'rgba(180, 120, 80, 0.1)', size: 100 },
+      { x: 300, y: canvas.height - 200, color: 'rgba(210, 150, 110, 0.11)', size: 90 },
+      { x: canvas.width - 150, y: canvas.height - 180, color: 'rgba(190, 130, 90, 0.1)', size: 85 },
+    ];
+
     const animate = () => {
-      ctx.clearRect(0, 0, 600, 600);
-      ctx.fillStyle = 'rgba(43, 31, 23, 0.08)';
-      ctx.fillRect(0, 0, 600, 600);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const centerX = 300;
-      const centerY = 300;
+      blobs.forEach((blob, blobIndex) => {
+        ctx.fillStyle = blob.color;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      for (let layer = 0; layer < 10; layer++) {
-        ctx.strokeStyle = `rgba(120, 80, 50, ${0.3 - layer * 0.02})`;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
+        for (let layer = 0; layer < 8; layer++) {
+          ctx.strokeStyle = `rgba(150, 100, 60, ${0.2 - layer * 0.02})`;
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
 
-        const baseRadius = 40 + layer * 20;
+          const baseRadius = blob.size * 0.3 + layer * blob.size * 0.08;
 
-        for (let i = 0; i <= 120; i++) {
-          const angle = (i / 120) * Math.PI * 2;
-          
-          // Deformación simple pero efectiva
-          const wave = Math.sin(angle * 3 + time * 0.1 + layer) * 15;
-          const wave2 = Math.cos(angle * 2 - time * 0.08 + layer * 0.5) * 10;
-          
-          const radius = baseRadius + wave + wave2;
-          const x = centerX + Math.cos(angle) * radius;
-          const y = centerY + Math.sin(angle) * radius;
+          for (let i = 0; i <= 100; i++) {
+            const angle = (i / 100) * Math.PI * 2;
+            
+            // Ralentizado: multiplicadores más pequeños
+            const wave1 = Math.sin(angle * 3 + time * 0.02 + blobIndex) * blob.size * 0.15;
+            const wave2 = Math.cos(angle * 2 - time * 0.015 + layer * 0.3) * blob.size * 0.12;
+            const wave3 = Math.sin(angle + time * 0.01) * blob.size * 0.08;
+            
+            const radius = baseRadius + wave1 + wave2 + wave3;
+            const x = blob.x + Math.cos(angle) * radius;
+            const y = blob.y + Math.sin(angle) * radius;
 
-          if (i === 0) {
-            ctx.moveTo(x, y);
-          } else {
-            ctx.lineTo(x, y);
+            if (i === 0) {
+              ctx.moveTo(x, y);
+            } else {
+              ctx.lineTo(x, y);
+            }
           }
-        }
 
-        ctx.closePath();
-        ctx.stroke();
-      }
+          ctx.closePath();
+          ctx.stroke();
+        }
+      });
 
       time += 1;
       requestAnimationFrame(animate);
@@ -60,18 +72,8 @@ export default function TopographicBlobAnimation() {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <canvas
-        id="topographicCanvas"
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 1,
-          opacity: 0.6,
-        }}
-      />
+    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
+      <canvas id="topographicCanvas" style={{ display: 'block', width: '100%', height: '100%' }} />
     </div>
   );
 }
