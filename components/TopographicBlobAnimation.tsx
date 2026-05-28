@@ -1,25 +1,25 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function TopographicBlobAnimation() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    const canvas = containerRef.current?.querySelector('canvas') as HTMLCanvasElement;
+    setIsMounted(true);
+
+    const canvas = document.getElementById('topographicCanvas') as HTMLCanvasElement;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Escalamos el canvas para que se vea ultra nítido en pantallas Retina/4K
     const dpr = window.devicePixelRatio || 1;
     const size = 600;
     canvas.width = size * dpr;
     canvas.height = size * dpr;
     ctx.scale(dpr, dpr);
 
-    // CONFIGURACIÓN ESTÉTICA
     const CONFIG = {
       totalLines: 10,
       spacing: 18,
@@ -77,15 +77,14 @@ export default function TopographicBlobAnimation() {
     drawTopographicBlob();
 
     return () => {
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-      }
+      cancelAnimationFrame(animationId);
     };
   }, []);
 
+  if (!isMounted) return null;
+
   return (
     <div
-      ref={containerRef}
       style={{
         position: 'absolute',
         top: '50%',
@@ -94,10 +93,17 @@ export default function TopographicBlobAnimation() {
         width: '600px',
         height: '600px',
         zIndex: -1,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
       }}
     >
-      <canvas id="topographicCanvas" style={{ width: '100%', height: '100%', display: 'block' }} />
+      <canvas
+        id="topographicCanvas"
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'block',
+        }}
+      />
     </div>
   );
 }
