@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install tsx for TypeScript execution
+        run: npm install -g tsx
+
       - name: Generate article with Gemini
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
@@ -33,7 +36,7 @@ jobs:
         run: node scripts/examples/generate-with-gemini.js
 
       - name: Process queue and publish
-        run: node scripts/ai-automation-worker.js
+        run: tsx scripts/ai-automation-worker.js
 
       - name: Commit and push changes
         run: |
@@ -49,14 +52,13 @@ jobs:
             echo "No new articles to commit"
           fi
 
-      - name: Notify on failure
+      - name: Notify on success
+        if: success()
+        run: |
+          echo "✅ Article generation and publishing completed successfully"
+
+      - name: Show logs on failure
         if: failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '⚠️ Daily article generation failed. Check workflow logs.'
-            })
+        run: |
+          echo "❌ Workflow failed. Check logs above for details."
+          exit 1

@@ -13,17 +13,25 @@
  *   0 9 * * * cd /path/to/project && node scripts/ai-automation-worker.js
  */
 
-import fs from 'node:fs';
-import path from 'node:path';
+const fs = require('fs');
+const path = require('path');
 
-// Import automation functions
-import {
-  getQueuedPosts,
-  publishQueuedPost,
-  updatePostSEOScore
-} from '../lib/ai-automation';
+// Import automation functions - using require to load compiled JS from .next
+let getQueuedPosts, publishQueuedPost, updatePostSEOScore, AI_AUTOMATION_CONFIG;
 
-import { AI_AUTOMATION_CONFIG } from '../lib/ai-automation-config';
+try {
+  // Try loading from lib (in Node.js environment)
+  const automationModule = require('../lib/ai-automation');
+  const configModule = require('../lib/ai-automation-config');
+  
+  getQueuedPosts = automationModule.getQueuedPosts;
+  publishQueuedPost = automationModule.publishQueuedPost;
+  updatePostSEOScore = automationModule.updatePostSEOScore;
+  AI_AUTOMATION_CONFIG = configModule.default || configModule.AI_AUTOMATION_CONFIG;
+} catch (err) {
+  console.error('Error loading modules. Make sure TypeScript files are compiled or use ts-node.');
+  process.exit(1);
+}
 
 const logFile = AI_AUTOMATION_CONFIG.logging.logFile;
 const logsDir = path.dirname(logFile);

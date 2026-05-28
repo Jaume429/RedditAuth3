@@ -15,21 +15,12 @@
  *   GOOGLE_API_KEY=your-key node scripts/examples/generate-with-gemini.js
  */
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || '');
 const API_BASE_URL = process.env.API_URL || 'http://localhost:3000';
 
-interface GeneratedArticle {
-  title: string;
-  description: string;
-  content: string;
-  slug: string;
-  tags: string[];
-  coverImage?: string;
-}
-
-async function generateArticle(topic: string): Promise<GeneratedArticle> {
+async function generateArticle(topic) {
   console.log(`Generating article about: ${topic}`);
 
   const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
@@ -70,7 +61,7 @@ Requirements:
   }
 }
 
-async function submitArticle(article: GeneratedArticle): Promise<void> {
+async function submitArticle(article) {
   console.log(`Submitting article: ${article.title}`);
 
   const response = await fetch(`${API_BASE_URL}/api/automation/submit`, {
@@ -121,8 +112,8 @@ async function main() {
 }
 
 // Run if executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (require.main === module) {
   main().catch(console.error);
 }
 
-export { generateArticle, submitArticle };
+module.exports = { generateArticle, submitArticle };
