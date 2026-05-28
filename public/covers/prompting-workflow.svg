@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Prompting workflow cards">
+  <rect width="1200" height="675" fill="#F5F0E8"/>
+  <path d="M0 560h1200v115H0z" fill="#536B4F"/>
+  <rect x="95" y="120" width="250" height="330" rx="18" fill="#fffaf2" stroke="#DED4C8" stroke-width="4"/>
+  <rect x="375" y="95" width="250" height="380" rx="18" fill="#191512"/>
+  <rect x="655" y="120" width="250" height="330" rx="18" fill="#fffaf2" stroke="#DED4C8" stroke-width="4"/>
+  <rect x="935" y="160" width="170" height="250" rx="18" fill="#B35C3E"/>
+  <path d="M150 210h130M150 270h150M150 330h95M430 200h130M430 260h140M430 320h90M710 210h130M710 270h150M710 330h95" stroke="#F2C871" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="1018" cy="285" r="46" fill="#F2C871"/>
+</svg>

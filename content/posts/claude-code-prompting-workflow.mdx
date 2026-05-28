@@ -1,0 +1,37 @@
+---
+title: "A Claude Code Prompting Workflow That Non-Developers Can Reuse"
+description: "Use this repeatable prompting workflow to help Claude Code plan, build, verify, and explain changes without burying you in jargon."
+date: "2026-05-21T09:00:00.000Z"
+slug: "claude-code-prompting-workflow"
+tags: ["Prompts", "Workflow", "Claude Code"]
+author: "Build With Claude"
+coverImage: "/covers/prompting-workflow.svg"
+---
+
+A good Claude Code session feels less like asking for magic and more like running a small product meeting. You set the outcome, Claude Code inspects the workspace, and then both of you move in steps.
+
+The mistake many beginners make is asking for the finished app immediately. That can work for tiny projects, but it gets risky when the app has routes, data, styling, and deployment settings.
+
+Use a four-step pattern instead: orient, plan, build, verify.
+
+## Step 1: Orient
+
+Ask Claude Code to inspect the project before writing code. This gives it the context it needs and gives you a plain-English map of the files.
+
+```text
+Read the project structure and tell me what framework, routes, styling system, and content sources this app uses.
+```
+
+## Step 2: Plan
+
+For meaningful work, ask for a short implementation plan. You are looking for the sequence, the files involved, and any risk.
+
+## Step 3: Build
+
+Once the plan sounds right, ask Claude Code to implement it. Keep the scope tight. A single feature or page is usually easier to verify than a long list of unrelated changes.
+
+## Step 4: Verify
+
+Ask for tests, a build, or a browser check depending on the project. If something fails, paste the error and ask Claude Code to diagnose before changing more files.
+
+This loop gives non-developers a practical way to stay in control without pretending to manually write every line.

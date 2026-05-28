@@ -1,0 +1,29 @@
+---
+title: "How to Publish a Claude Code Project on Vercel"
+description: "A non-developer checklist for preparing a Claude Code project, connecting it to Vercel, and avoiding common deployment mistakes."
+date: "2026-05-22T09:00:00.000Z"
+slug: "publish-a-claude-code-site-on-vercel"
+tags: ["Vercel", "Publishing", "Claude Code"]
+author: "Build With Claude"
+coverImage: "/covers/vercel-publishing.svg"
+---
+
+Publishing a Claude Code project on Vercel is usually straightforward when the project is a Next.js app. The hard part is not the button click. The hard part is making sure the project is ready before you click it.
+
+Start by asking Claude Code to run the build command locally. If the build fails on your machine, it will probably fail on Vercel too.
+
+Then review environment variables. API keys, database URLs, and private tokens should live in Vercel project settings, not inside source files.
+
+## Pre-deployment checklist
+
+- Confirm `npm run build` passes.
+- Confirm pages have titles, descriptions, and canonical URLs.
+- Confirm images use `next/image` or include stable dimensions.
+- Confirm private values are in `.env.local` and not committed.
+- Confirm the main mobile flow works.
+
+## What Vercel needs
+
+Vercel needs access to your Git repository, a build command, and the environment variables your app expects. For most Next.js projects, the defaults are enough.
+
+After the first deployment, open the live URL and test it like a visitor. Search engines and customers only see what actually shipped.

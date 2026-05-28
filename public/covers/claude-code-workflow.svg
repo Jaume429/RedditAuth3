@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Abstract desk workflow for Claude Code">
+  <rect width="1200" height="675" fill="#F5F0E8"/>
+  <rect x="80" y="85" width="1040" height="505" rx="22" fill="#fffaf2" stroke="#DED4C8" stroke-width="4"/>
+  <rect x="140" y="145" width="440" height="330" rx="16" fill="#191512"/>
+  <path d="M190 220h230M190 272h310M190 324h250M190 376h285" stroke="#F2C871" stroke-width="20" stroke-linecap="round"/>
+  <rect x="650" y="155" width="360" height="76" rx="14" fill="#B35C3E"/>
+  <rect x="650" y="270" width="420" height="46" rx="12" fill="#DED4C8"/>
+  <rect x="650" y="350" width="330" height="46" rx="12" fill="#DED4C8"/>
+  <rect x="650" y="430" width="385" height="46" rx="12" fill="#536B4F"/>
+  <circle cx="1020" cy="178" r="58" fill="#F2C871"/>
+</svg>

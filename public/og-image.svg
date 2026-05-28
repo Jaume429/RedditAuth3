@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Claude Code for Non-Developers</title>
+  <desc id="desc">Plain-English Claude Code guides for building useful software with AI.</desc>
+  <rect width="1200" height="630" fill="#F5F0E8"/>
+  <rect x="72" y="72" width="1056" height="486" rx="28" fill="#fffaf2" stroke="#DED4C8" stroke-width="3"/>
+  <path d="M92 470 C230 395 348 430 475 360 C620 280 762 320 894 238 C985 181 1052 179 1124 214 L1124 558 L92 558 Z" fill="#F2C871" opacity="0.45"/>
+  <circle cx="978" cy="160" r="54" fill="#536B4F" opacity="0.18"/>
+  <circle cx="166" cy="478" r="40" fill="#B35C3E" opacity="0.14"/>
+  <text x="116" y="178" fill="#B35C3E" font-family="Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="4">BUILD WITH CLAUDE CODE</text>
+  <text x="116" y="288" fill="#191512" font-family="Georgia, serif" font-size="74" font-weight="700">Claude Code guides</text>
+  <text x="116" y="374" fill="#191512" font-family="Georgia, serif" font-size="74" font-weight="700">for non-developers</text>
+  <text x="116" y="462" fill="#6D6258" font-family="Arial, sans-serif" font-size="32">Build, verify, and publish useful software with AI.</text>
+</svg>

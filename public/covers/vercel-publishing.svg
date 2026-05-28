@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Publishing checklist and launch arrow">
+  <rect width="1200" height="675" fill="#F5F0E8"/>
+  <rect x="105" y="95" width="500" height="485" rx="22" fill="#fffaf2" stroke="#DED4C8" stroke-width="4"/>
+  <path d="M180 210l34 34 70-82M180 330l34 34 70-82M180 450l34 34 70-82" fill="none" stroke="#536B4F" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M340 205h190M340 325h170M340 445h210" stroke="#191512" stroke-width="20" stroke-linecap="round"/>
+  <path d="M720 500L995 225M778 225h217v217" fill="none" stroke="#B35C3E" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="840" cy="395" r="88" fill="#F2C871" opacity=".85"/>
+</svg>

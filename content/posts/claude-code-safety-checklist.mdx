@@ -1,0 +1,19 @@
+---
+title: "Claude Code Safety Checklist for Non-Developers"
+description: "A practical checklist for reviewing Claude Code changes before publishing a project."
+date: "2026-05-24T13:21:49.746Z"
+slug: "claude-code-safety-checklist"
+tags: ["Safety", "Claude Code", "Publishing"]
+author: "Build With Claude"
+coverImage: "/covers/claude-code-workflow.svg"
+---
+
+Before you ship a Claude Code project, slow down and review the parts that can hurt users or break the app.
+
+Check the build output first. A passing build does not prove the app is perfect, but a failing build is a clear stop sign.
+
+Review environment variables next. Private keys should stay out of committed files and live in deployment settings.
+
+Ask Claude Code to summarize every file it changed. This makes the review concrete and gives you a plain-English map of the work.
+
+Finally, test the main user path on desktop and mobile. Click the real buttons, submit the real forms, and open the deployed URL before sharing it.

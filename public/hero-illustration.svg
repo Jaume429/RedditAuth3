@@ -1,0 +1,100 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="glowGradient" cx="50%" cy="40%">
+      <stop offset="0%" style="stop-color:#ff9500;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#ff9500;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Dark background -->
+  <rect width="600" height="600" fill="#1a1a1a"/>
+  
+  <!-- Glow effect -->
+  <circle cx="300" cy="200" r="250" fill="url(#glowGradient)"/>
+  
+  <!-- Data cube (isometric 3D) -->
+  <g transform="translate(300, 80)">
+    <!-- Top white face -->
+    <polygon points="0,-40 50,-20 50,20 0,40 -50,20 -50,-20" fill="#f5f5f5" stroke="#999" stroke-width="1.5"/>
+    <!-- Upper middle gray face -->
+    <polygon points="-50,-20 -50,20 -80,40 -80,0" fill="#d8d8d8" stroke="#888" stroke-width="1.5"/>
+    <polygon points="50,-20 50,20 80,40 80,0" fill="#b0b0b0" stroke="#888" stroke-width="1.5"/>
+    
+    <!-- Lower middle gray layer -->
+    <polygon points="0,40 50,60 50,100 0,120 -50,100 -50,60" fill="#a0a0a0" stroke="#777" stroke-width="1.5"/>
+    <polygon points="-50,60 -50,100 -80,120 -80,80" fill="#888" stroke="#666" stroke-width="1.5"/>
+    <polygon points="50,60 50,100 80,120 80,80" fill="#707070" stroke="#666" stroke-width="1.5"/>
+    
+    <!-- Bottom dark gray layer -->
+    <polygon points="0,120 50,140 50,180 0,200 -50,180 -50,140" fill="#505050" stroke="#333" stroke-width="1.5"/>
+    <polygon points="-50,140 -50,180 -80,200 -80,160" fill="#404040" stroke="#222" stroke-width="1.5"/>
+    <polygon points="50,140 50,180 80,200 80,160" fill="#383838" stroke="#222" stroke-width="1.5"/>
+  </g>
+  
+  <!-- Connection lines from cube to monitor (vertical wires) -->
+  <g stroke="#d4a574" stroke-width="1.5" opacity="0.6" filter="url(#glow)">
+    <path d="M 260 320 Q 250 370 240 420" fill="none"/>
+    <path d="M 280 330 Q 270 380 260 430" fill="none"/>
+    <path d="M 300 335 Q 300 385 300 435" fill="none"/>
+    <path d="M 320 330 Q 330 380 340 430" fill="none"/>
+    <path d="M 340 320 Q 350 370 360 420" fill="none"/>
+  </g>
+  
+  <!-- Connection lines branching to sides -->
+  <g stroke="#d4a574" stroke-width="1" opacity="0.5">
+    <path d="M 240 360 L 180 380" fill="none"/>
+    <path d="M 360 360 L 420 380" fill="none"/>
+    <path d="M 250 380 L 170 400" fill="none"/>
+    <path d="M 350 380 L 430 400" fill="none"/>
+  </g>
+  
+  <!-- Monitor -->
+  <g filter="url(#glow)">
+    <!-- Monitor bezel -->
+    <rect x="180" y="380" width="240" height="140" rx="6" fill="#1f1f1f" stroke="#d4a574" stroke-width="2"/>
+    <!-- Monitor screen -->
+    <rect x="190" y="390" width="220" height="120" fill="#0a0a0a"/>
+    <!-- Screen glow -->
+    <rect x="190" y="390" width="220" height="120" fill="#ff9500" opacity="0.15"/>
+    
+    <!-- Code lines on screen -->
+    <g stroke="#d4a574" stroke-width="1.2" opacity="0.8">
+      <line x1="205" y1="410" x2="260" y2="410"/>
+      <line x1="205" y1="425" x2="280" y2="425"/>
+      <line x1="205" y1="440" x2="240" y2="440"/>
+      <line x1="275" y1="410" x2="350" y2="410"/>
+      <line x1="275" y1="425" x2="360" y2="425"/>
+      <line x1="205" y1="460" x2="270" y2="460"/>
+      <line x1="205" y1="475" x2="290" y2="475"/>
+    </g>
+  </g>
+  
+  <!-- Monitor stand/base -->
+  <rect x="250" y="520" width="100" height="8" rx="4" fill="#2a2a2a" stroke="#555" stroke-width="1"/>
+  <rect x="295" y="528" width="10" height="25" fill="#2a2a2a"/>
+  
+  <!-- Person sitting -->
+  <g filter="url(#glow)">
+    <!-- Head -->
+    <circle cx="120" cy="420" r="18" stroke="#d4a574" stroke-width="1.5" fill="none"/>
+    <!-- Body -->
+    <line x1="120" y1="438" x2="120" y2="490" stroke="#d4a574" stroke-width="1.5"/>
+    <!-- Left arm -->
+    <path d="M 120 450 Q 80 460 70 500" stroke="#d4a574" stroke-width="1.5" fill="none"/>
+    <!-- Right arm (on mouse) -->
+    <path d="M 120 450 Q 160 465 200 480" stroke="#d4a574" stroke-width="1.5" fill="none"/>
+    <!-- Left leg -->
+    <path d="M 110 490 L 90 540" stroke="#d4a574" stroke-width="1.5" fill="none"/>
+    <!-- Right leg -->
+    <path d="M 130 490 L 150 540" stroke="#d4a574" stroke-width="1.5" fill="none"/>
+    <!-- Mouse -->
+    <ellipse cx="205" cy="485" rx="12" ry="8" stroke="#d4a574" stroke-width="1.5" fill="none"/>
+  </g>
+</svg>
