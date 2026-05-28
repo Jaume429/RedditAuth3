@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import './TopographicBlobAnimation.css';
 
 export default function TopographicBlobAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -87,9 +86,17 @@ export default function TopographicBlobAnimation() {
   return (
     <div
       ref={containerRef}
-      className="background-animation-container"
+      style={{
+        position: 'absolute',
+        top: '10%',
+        left: '-5%',
+        width: '600px',
+        height: '600px',
+        zIndex: -1,
+        pointerEvents: 'none'
+      }}
     >
-      <canvas id="topographicCanvas" />
+      <canvas id="topographicCanvas" style={{ width: '100%', height: '100%' }} />
     </div>
   );
 }
