@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topographic Blob Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background: #000000;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .info {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: #00ffff;
+            font-size: 12px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="info">
+        <p>Topographic Blob Animation</p>
+        <p id="fps">FPS: 60</p>
+    </div>
+
+    <script>
+        // Simplex Noise Implementation
+        class SimplexNoise {
+            constructor(seed = Math.random()) {
+                this.p = new Array(256);
+                for (let i = 0; i < 256; i++) {
+                    this.p[i] = Math.floor(Math.random() * 256);
+                }
+                this.permutation = [...this.p, ...this.p];
+            }
+
+            fade(t) {
+                return t * t * t * (t * (t * 6 - 15) + 10);
+            }
+
+            lerp(t, a, b) {
+                return a + t * (b - a);
+            }
+
+            grad(hash, x, y) {
+                const h = hash & 15;
+                const u = h < 8 ? x : y;
+                const v = h < 8 ? y : x;
+                return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
+            }
+
+            noise(x, y) {
+                const xi = Math.floor(x) & 255;
+                const yi = Math.floor(y) & 255;
+                const xf = x - Math.floor(x);
+                const yf = y - Math.floor(y);
+                const u = this.fade(xf);
+                const v = this.fade(yf);
+
+                const p = this.permutation;
+                const aa = p[p[xi] + yi];
+                const ab = p[p[xi] + yi + 1];
+                const ba = p[p[xi + 1] + yi];
+                const bb = p[p[xi + 1] + yi + 1];
+
+                const g1 = this.grad(aa, xf, yf);
+                const g2 = this.grad(ba, xf - 1, yf);
+                const g3 = this.grad(ab, xf, yf - 1);
+                const g4 = this.grad(bb, xf - 1, yf - 1);
+
+                const x1 = this.lerp(u, g1, g2);
+                const x2 = this.lerp(u, g3, g4);
+                return this.lerp(v, x1, x2);
+            }
+        }
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Setup canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Configuration
+        const config = {
+            blobX: canvas.width * 0.25,
+            blobY: canvas.height * 0.5,
+            baseRadius: 100,
+            layers: 10,
+            lineWidth: 2,
+            noiseScale: 0.005,
+            timeScale: 0.3,
+            floatAmount: 15,
+            floatSpeed: 0.5,
+        };
+
+        const noise = new SimplexNoise();
+        let time = 0;
+        let frameCount = 0;
+        let lastTime = Date.now();
+
+        // Color gradient from cyan to purple
+        function getGlowColor(layer, maxLayers) {
+            const t = layer / maxLayers;
+            const r = Math.floor(100 + t * 155);
+            const g = Math.floor(255 - t * 155);
+            const b = Math.floor(200 + t * 55);
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function drawBlobLayer(layer, time) {
+            const radius = config.baseRadius + layer * (config.baseRadius * 0.15);
+            const points = [];
+            const segments = 128;
+
+            for (let i = 0; i < segments; i++) {
+                const angle = (i / segments) * Math.PI * 2;
+                
+                // Multi-octave noise for organic deformation
+                let noiseValue = 0;
+                let amplitude = 1;
+                let frequency = 1;
+                
+                for (let oct = 0; oct < 3; oct++) {
+                    noiseValue += noise.noise(
+                        Math.cos(angle) * frequency + time * config.timeScale,
+                        Math.sin(angle) * frequency + time * config.timeScale + layer * 0.5
+                    ) * amplitude;
+                    amplitude *= 0.5;
+                    frequency *= 2;
+                }
+
+                const deformation = noiseValue * config.noiseScale * radius;
+                const r = radius + deformation;
+                
+                const x = config.blobX + Math.cos(angle) * r;
+                const y = config.blobY + Math.sin(angle) * r;
+                points.push({ x, y });
+            }
+
+            // Draw the contour line
+            ctx.strokeStyle = getGlowColor(layer, config.layers);
+            ctx.lineWidth = config.lineWidth;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            // Add glow effect
+            ctx.shadowColor = getGlowColor(layer, config.layers);
+            ctx.shadowBlur = 20;
+
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            ctx.closePath();
+            ctx.stroke();
+
+            ctx.shadowBlur = 0;
+        }
+
+        function animate() {
+            // Clear canvas
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Calculate floating offset
+            const floatOffsetX = Math.sin(time * config.floatSpeed * 0.5) * config.floatAmount;
+            const floatOffsetY = Math.cos(time * config.floatSpeed * 0.3) * config.floatAmount;
+
+            // Update blob position for floating effect
+            config.blobX = canvas.width * 0.25 + floatOffsetX;
+            config.blobY = canvas.height * 0.5 + floatOffsetY;
+
+            // Draw layers
+            for (let i = 0; i < config.layers; i++) {
+                drawBlobLayer(i, time);
+            }
+
+            time += 1;
+            frameCount++;
+
+            // Update FPS counter
+            const currentTime = Date.now();
+            if (currentTime - lastTime >= 1000) {
+                document.getElementById('fps').textContent = `FPS: ${frameCount}`;
+                frameCount = 0;
+                lastTime = currentTime;
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Start animation
+        animate();
+    </script>
+</body>
+</html>

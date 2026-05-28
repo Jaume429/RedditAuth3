@@ -3,7 +3,6 @@ import './globals.css';
 import AdSenseScript from '@/components/AdSenseScript';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import StickyCTA from '@/components/StickyCTA';
 import { absoluteUrl, siteConfig } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -83,7 +82,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to main content
         </a>
         <AdSenseScript />
-        <StickyCTA />
         <Header />
         <main id="main">{children}</main>
         <Footer />

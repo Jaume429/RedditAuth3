@@ -1,14 +1,15 @@
 import Link from 'next/link';
 import { siteConfig } from '@/lib/site';
+import CTAButton from '@/components/CTAButton';
 
 export default function Header() {
   return (
-    <header className="border-b border-line/80">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-5 lg:px-6">
-        <Link href="/" className="font-serif text-xl font-bold leading-none text-ink">
+    <header className="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 lg:px-6">
+        <Link href="/" className="font-serif text-lg font-bold text-ink">
           {siteConfig.shortName}
         </Link>
-        <nav aria-label="Main navigation" className="flex items-center gap-5 text-sm font-semibold text-muted">
+        <nav aria-label="Main navigation" className="flex items-center gap-6 text-sm font-medium text-muted">
           <Link className="transition hover:text-ink" href="/blog">
             Blog
           </Link>
@@ -19,6 +20,7 @@ export default function Header() {
             Contact
           </Link>
         </nav>
+        <CTAButton label="Open the toolkit" utmContent="header_button" />
       </div>
     </header>
   );
